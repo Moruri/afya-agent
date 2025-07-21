@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Assistant</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <h2>Health Agent</h2>
+    </header>
+
+    <main>
+      <div id="chatbox">
+        <div id="chat"></div>
+
+        <div class="input-container">
+          <input type="text" id="message" placeholder="Ask a health question" />
+          <button onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      function sendMessage() {
+        const message = document.getElementById("message").value;
+        if (!message.trim()) return;
+        fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            const chat = document.getElementById("chat");
+            chat.innerHTML += `<p><b>You:</b> ${message}</p>`;
+            chat.innerHTML += `<p><b>Health Assistant:</b> ${data.reply}</p>`;
+            document.getElementById("message").value = "";
+            chat.scrollTop = chat.scrollHeight;
+          });
+      }
+    </script>
+  </body>
+</html>
