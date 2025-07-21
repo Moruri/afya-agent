@@ -1,4 +1,4 @@
-# Health Assistant Chatbot
+# Health Assistant 
 
 A Flask-based health assistant chatbot using LangChain and OpenAI's GPT-3.5 model.
 
